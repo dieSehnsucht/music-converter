@@ -23,8 +23,8 @@ RUN apt-get update \
 WORKDIR /app
 
 # 构建时可选择是否安装重量级依赖（torch/transformers/tensorflow）
-ARG INSTALL_HEAVY=true
-ARG INSTALL_INFERENCE=false
+ARG INSTALL_HEAVY=false
+ARG INSTALL_INFERENCE=true
 
 # 复制 requirements 与代码
 COPY backend/requirements-light.txt /app/requirements-light.txt
