@@ -88,7 +88,7 @@ def compute_final_score(orig, gen, target_style, target_emotion):
     escape = sp_orig.get(orig["style"], 0) - sp_gen.get(orig["style"], 0)
 
     # --- JS Divergence ---
-    js_style = jenshannon(
+    js_style = jensenshannon(
         _prob_dict_to_vector(sp_orig),
         _prob_dict_to_vector(sp_gen)
     )
@@ -210,6 +210,15 @@ class FullMusicPipeline:
         print(f"🎵 Original Style:   {orig['style']}")
         print(f"😊 Original Emotion: {orig['emotion']}")
 
+        # 如果未指定目标，则默认保持原样
+        if not target_style:
+            target_style = orig['style']
+            print(f"👉 Target Style not specified, using original: {target_style}")
+        
+        if not target_emotion:
+            target_emotion = orig['emotion']
+            print(f"👉 Target Emotion not specified, using original: {target_emotion}")
+
         # --- Melody info ---
         print("\n🎼 Extracting melody info…")
         try:
@@ -279,11 +288,6 @@ class FullMusicPipeline:
                 temperature=1.0,
                 top_p=0.95,
                 do_sample=True,
-
-                # ======================================================
-                # ★★★ 新增：传入 style=target_style
-                # ======================================================
-                style=target_style,
             )
 
             # --- analyze ---
